@@ -12,20 +12,28 @@ const memos = ref([
 ]);
 const choice = ref(memos.value[0]);
 
-function updateMemo(memo) {
-  memos.value = memos.value.map((m) => {
-    if (m.id === memo.id) {
-      return memo;
+let editingId = ref(choice.value.id);
+let editingTitle = ref(choice.value.title);
+let editingBody = ref(choice.value.body);
+
+function updateMemo() {
+  memos.value = memos.value.map((memo) => {
+    if (memo.id === editingId.value) {
+      return {
+        id: editingId.value,
+        title: editingTitle.value,
+        body: editingBody.value,
+      };
     } else {
-      return m;
+      return memo;
     }
   });
   choice.value = {};
 }
 
 function deleteMemo(id) {
-  memos.value = memos.value.filter((m) => {
-    return m.id !== id;
+  memos.value = memos.value.filter((memo) => {
+    return memo.id !== id;
   });
   choice.value = memos.value[0];
 }
@@ -55,8 +63,10 @@ function setSampleData() {
   <MemoList :memos="memos" /><br />
   <button @click="addMemo">Add</button>
   <MemoDetail
-    :choice="choice"
-    @save="(id, title, body) => updateMemo(id, title, body)"
+    v-model:title="editingTitle"
+    v-model:body="editingBody"
+    :id="editingId"
+    @save="updateMemo()"
     @delete="(id) => deleteMemo(id)"
   />
   <div>

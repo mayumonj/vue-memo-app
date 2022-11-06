@@ -2,24 +2,28 @@
 import { ref } from "vue";
 
 const props = defineProps({
-  choice: {
-    type: Object,
+  id: {
+    type: Number,
+    required: true,
+  },
+  title: {
+    type: String,
+    required: true,
+  },
+  body: {
+    type: String,
     required: true,
   },
 });
 
-const id = ref(props.choice.id);
-const title = ref(props.choice.title);
-const body = ref(props.choice.body);
+const emit = defineEmits(["update:title", "update:body", "save", "delete"]);
 
-const emit = defineEmits(["save", "delete"]);
-
-function saveMemo(id, title, body) {
-  const updatedMemo = { id: id, title: title, body: body };
-  console.log(updatedMemo);
-  emit("save", updatedMemo);
+function saveMemo() {
+  console.log("save");
+  emit("save");
 }
 function deleteMemo(id) {
+  console.log("delete");
   console.log(id);
   emit("delete", id);
 }
@@ -30,10 +34,18 @@ function deleteMemo(id) {
   {{ props }}
   <div>
     <label for="title">Title</label><br />
-    <input id="title" v-model="title" /><br />
+    <input
+      id="title"
+      :value="title"
+      @input="$emit('update:title', $event.target.value)"
+    /><br />
     <label for="body">Body</label><br />
-    <textarea id="body" v-model="body" /><br />
-    <button @click="saveMemo(id, title, body)">Save</button><br />
+    <textarea
+      id="body"
+      :value="body"
+      @input="$emit('update:body', $event.target.value)"
+    /><br />
+    <button @click="saveMemo()">Save</button><br />
     <button @click="deleteMemo(id)">Delete this memo</button>
     <p>memoDetail title: {{ title }}</p>
     <p>memoDetail body: {{ body }}</p>
