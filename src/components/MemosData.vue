@@ -3,7 +3,7 @@ import { ref } from "vue";
 import MemoList from "./MemoList.vue";
 import MemoDetail from "./MemoDetail.vue";
 
-let id = 0;
+let id = 1;
 
 const memos = ref([
   { id: id++, title: "memo1", body: "memo1 body" },
@@ -45,7 +45,7 @@ function addMemo() {
 }
 
 function setSampleData() {
-  id = 0;
+  id = 1;
   memos.value = [
     { id: id++, title: "memo1", body: "memo1 body" },
     { id: id++, title: "memo2", body: "memo2 body" },
@@ -58,15 +58,18 @@ function setSampleData() {
 <template>
   <MemoList :memos="memos" @choose="(memo) => chooseTheMemo(memo)" /><br />
   <button @click="addMemo">Add</button>
-  <MemoDetail
-    v-model:title="choice.title"
-    v-model:body="choice.body"
-    :id="choice.id"
-    @save="updateMemo()"
-    @delete="(id) => deleteMemo(id)"
-  />
+  <div v-show="choice.id">
+    <MemoDetail
+      v-model:title="choice.title"
+      v-model:body="choice.body"
+      :id="choice.id"
+      @save="updateMemo()"
+      @delete="(id) => deleteMemo(id)"
+    />
+  </div>
   <div>
     <p>memoData choice: {{ choice }}</p>
+    <p>v-show {{ !!choice.id }}</p>
     <button @click="setSampleData">Set Sample Data</button>
   </div>
 </template>
