@@ -12,6 +12,10 @@ const memos = ref([
 ]);
 const choice = ref({});
 
+function chooseTheMemo(memo) {
+  choice.value = memo;
+}
+
 function updateMemo() {
   memos.value = memos.value.map((memo) => {
     if (memo.id === choice.value.id) {
@@ -47,12 +51,12 @@ function setSampleData() {
     { id: id++, title: "memo2", body: "memo2 body" },
     { id: id++, title: "memo3", body: "memo3 body" },
   ];
-  choice.value = memos.value[0];
+  choice.value = {};
 }
 </script>
 
 <template>
-  <MemoList :memos="memos" /><br />
+  <MemoList :memos="memos" @choose="(memo) => chooseTheMemo(memo)" /><br />
   <button @click="addMemo">Add</button>
   <MemoDetail
     v-model:title="choice.title"

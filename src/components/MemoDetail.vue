@@ -1,17 +1,12 @@
 <script setup>
-import { ref } from "vue";
-
 const props = defineProps(["id", "title", "body"]);
 
 const emit = defineEmits(["update:title", "update:body", "save", "delete"]);
 
 function saveMemo() {
-  console.log("save");
   emit("save");
 }
 function deleteMemo(id) {
-  console.log("delete");
-  console.log(id);
   emit("delete", id);
 }
 </script>
