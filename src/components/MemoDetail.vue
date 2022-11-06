@@ -1,20 +1,7 @@
 <script setup>
 import { ref } from "vue";
 
-const props = defineProps({
-  id: {
-    type: Number,
-    required: true,
-  },
-  title: {
-    type: String,
-    required: true,
-  },
-  body: {
-    type: String,
-    required: true,
-  },
-});
+const props = defineProps(["id", "title", "body"]);
 
 const emit = defineEmits(["update:title", "update:body", "save", "delete"]);
 
