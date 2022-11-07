@@ -1,15 +1,20 @@
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import MemoList from "./MemoList.vue";
 import MemoDetail from "./MemoDetail.vue";
 
-let id = 1;
+const memos = ref([]);
 
-const memos = ref([
-  { id: id++, title: "memo1", body: "memo1 body" },
-  { id: id++, title: "memo2", body: "memo2 body" },
-  { id: id++, title: "memo3", body: "memo3 body" },
-]);
+if (localStorage.memos) {
+  memos.value = JSON.parse(localStorage.memos);
+}
+
+const maxId = computed(() => {
+  return memos.value.reduce((max, memo) => {
+    return memo.id > max ? memo.id : max;
+  }, 0);
+});
+
 const choice = ref({});
 
 function chooseTheMemo(memo) {
@@ -24,6 +29,7 @@ function updateMemo() {
       return memo;
     }
   });
+  saveData();
   choice.value = {};
 }
 
@@ -31,12 +37,13 @@ function deleteMemo(id) {
   memos.value = memos.value.filter((memo) => {
     return memo.id !== id;
   });
+  saveData();
   choice.value = {};
 }
 
 function addMemo() {
   const newMemo = {
-    id: id++,
+    id: maxId.value + 1,
     title: "New Memo",
     body: "",
   };
@@ -45,13 +52,22 @@ function addMemo() {
 }
 
 function setSampleData() {
-  id = 1;
+  localStorage.clear();
   memos.value = [
-    { id: id++, title: "memo1", body: "memo1 body" },
-    { id: id++, title: "memo2", body: "memo2 body" },
-    { id: id++, title: "memo3", body: "memo3 body" },
+    { id: 1, title: "memo1", body: "memo1 body" },
+    { id: 2, title: "memo2", body: "memo2 body" },
+    { id: 3, title: "memo3", body: "memo3 body" },
   ];
   choice.value = {};
+}
+
+function saveData() {
+  localStorage.memos = JSON.stringify(memos.value);
+}
+
+function clearData() {
+  localStorage.clear();
+  memos.value = [];
 }
 </script>
 
@@ -69,8 +85,10 @@ function setSampleData() {
   </div>
   <div>
     <p>memoData choice: {{ choice }}</p>
+    <p>maxId {{ maxId }}</p>
     <p>v-show {{ !!choice.id }}</p>
-    <button @click="setSampleData">Set Sample Data</button>
+    <button @click="setSampleData">Set Sample Data</button><br />
+    <button @click="clearData">Clear All Data</button>
   </div>
 </template>
 
