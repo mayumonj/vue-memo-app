@@ -1,5 +1,5 @@
 <script setup>
-const props = defineProps(["id", "title", "body"]);
+defineProps(["id", "title", "body"]);
 
 const emit = defineEmits(["update:title", "update:body", "save", "delete"]);
 
@@ -12,9 +12,8 @@ function deleteMemo(id) {
 </script>
 
 <template>
-  <h2>Memo Detail</h2>
-  {{ props }}
   <div>
+    <h2>Memo Detail</h2>
     <label for="title">Title</label><br />
     <input
       id="title"
@@ -28,20 +27,8 @@ function deleteMemo(id) {
       @input="$emit('update:body', $event.target.value)"
     /><br />
     <button @click="saveMemo()">Save</button><br />
-    <button @click="deleteMemo(id)">Delete this memo</button>
-    <p>memoDetail title: {{ title }}</p>
-    <p>memoDetail body: {{ body }}</p>
+    <button @click="deleteMemo(id)">Delete this item</button>
   </div>
 </template>
 
-<style scoped>
-h2 {
-  padding: 10px 10px 0 10px;
-}
-div {
-  padding: 5px 10px;
-}
-
-@media (min-width: 1024px) {
-}
-</style>
+<style scoped></style>

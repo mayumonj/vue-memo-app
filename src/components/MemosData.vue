@@ -72,30 +72,54 @@ function clearData() {
 </script>
 
 <template>
-  <MemoList :memos="memos" @choose="(memo) => chooseTheMemo(memo)" /><br />
-  <button @click="addMemo">Add</button>
-  <div v-show="choice.id">
-    <MemoDetail
-      v-model:title="choice.title"
-      v-model:body="choice.body"
-      :id="choice.id"
-      @save="updateMemo()"
-      @delete="(id) => deleteMemo(id)"
-    />
+  <div class="list">
+    <MemoList :memos="memos" @choose="(memo) => chooseTheMemo(memo)" />
+    <button class="add-button" @click="addMemo">Add</button>
+    <div class="dev">
+      <h3>for dev</h3>
+      <p>memoData choice: {{ choice }}</p>
+      <p>maxId {{ maxId }}</p>
+      <p>v-show {{ !!choice.id }}</p>
+      <button @click="setSampleData">Set Sample Data</button><br />
+      <button @click="clearData">Clear All Data</button>
+    </div>
   </div>
-  <div>
-    <p>memoData choice: {{ choice }}</p>
-    <p>maxId {{ maxId }}</p>
-    <p>v-show {{ !!choice.id }}</p>
-    <button @click="setSampleData">Set Sample Data</button><br />
-    <button @click="clearData">Clear All Data</button>
+  <div v-show="choice.id">
+    <div class="detail">
+      <MemoDetail
+        v-model:title="choice.title"
+        v-model:body="choice.body"
+        :id="choice.id"
+        @save="updateMemo()"
+        @delete="(id) => deleteMemo(id)"
+      />
+    </div>
   </div>
 </template>
 
 <style scoped>
-div {
-  padding-left: 10px;
+.list {
+  margin: 10px;
 }
-@media (min-width: 1024px) {
+.add-button {
+  margin-top: 20px;
+}
+.detail {
+  margin: 30px 10px;
+}
+.dev {
+  padding: 10px;
+}
+@media (min-width: 480px) {
+  .list {
+    width: 30%;
+    float: left;
+    margin: 10px;
+  }
+  .detail {
+    width: 50%;
+    float: right;
+    margin: 10px;
+  }
 }
 </style>
