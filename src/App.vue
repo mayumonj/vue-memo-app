@@ -1,5 +1,5 @@
 <script setup>
-import MemosData from "./components/MemosData.vue";
+import AppContents from "./components/AppContents.vue";
 import AppHeader from "./components/AppHeader.vue";
 </script>
 
@@ -9,7 +9,7 @@ import AppHeader from "./components/AppHeader.vue";
   </header>
 
   <main>
-    <MemosData />
+    <AppContents />
   </main>
 </template>
 

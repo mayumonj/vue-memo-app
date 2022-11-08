@@ -1,19 +1,10 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import MemoList from "./MemoList.vue";
 import MemoDetail from "./MemoDetail.vue";
+import { MemoData } from "../lib/memo-data";
 
-const memos = ref([]);
-
-if (localStorage.memos) {
-  memos.value = JSON.parse(localStorage.memos);
-}
-
-const maxId = computed(() => {
-  return memos.value.reduce((max, memo) => {
-    return memo.id > max ? memo.id : max;
-  }, 0);
-});
+const memos = ref(MemoData.getAllMemos());
 
 const choice = ref({});
 
@@ -22,52 +13,31 @@ function chooseTheMemo(memo) {
 }
 
 function updateMemo() {
-  memos.value = memos.value.map((memo) => {
-    if (memo.id === choice.value.id) {
-      return choice.value;
-    } else {
-      return memo;
-    }
-  });
-  saveData();
+  memos.value = MemoData.update(choice.value);
   choice.value = {};
 }
 
 function deleteMemo(id) {
-  memos.value = memos.value.filter((memo) => {
-    return memo.id !== id;
-  });
-  saveData();
+  memos.value = MemoData.delete(id);
   choice.value = {};
 }
 
 function addMemo() {
-  const newMemo = {
-    id: maxId.value + 1,
-    title: "New Memo",
-    body: "",
-  };
-  memos.value.push(newMemo);
-  choice.value = { id: newMemo.id, title: newMemo.title, body: newMemo.body };
+  [choice.value, memos.value] = MemoData.create("New Memo", "");
 }
 
 function setSampleData() {
   localStorage.clear();
-  memos.value = [
-    { id: 1, title: "memo1", body: "memo1 body" },
-    { id: 2, title: "memo2", body: "memo2 body" },
-    { id: 3, title: "memo3", body: "memo3 body" },
-  ];
+  MemoData.create("Memo 1", "Memo 1 body");
+  MemoData.create("Memo 2", "Memo 2 body");
+  MemoData.create("Memo 3", "Memo 3 body");
   choice.value = {};
-}
-
-function saveData() {
-  localStorage.memos = JSON.stringify(memos.value);
 }
 
 function clearData() {
   localStorage.clear();
   memos.value = [];
+  choice.value = {};
 }
 </script>
 
@@ -78,7 +48,6 @@ function clearData() {
     <div class="dev">
       <h3>for dev</h3>
       <p>memoData choice: {{ choice }}</p>
-      <p>maxId {{ maxId }}</p>
       <p>v-show {{ !!choice.id }}</p>
       <button @click="setSampleData">Set Sample Data</button><br />
       <button @click="clearData">Clear All Data</button>
