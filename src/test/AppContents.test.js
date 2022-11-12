@@ -1,10 +1,14 @@
 import { render, fireEvent } from "@testing-library/vue";
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect, beforeEach, afterAll } from "vitest";
 import AppContents from "../components/AppContents.vue";
 
 describe("App Components", function () {
   beforeEach(async () => {
     setSampleData();
+  });
+
+  afterAll(async () => {
+    cleanData();
   });
 
   it("displays the list of memo titles", async () => {
@@ -78,4 +82,8 @@ function setSampleData() {
     { id: 3, title: "title3", body: "body3" },
   ];
   localStorage.memos = JSON.stringify(DATA);
+}
+
+function cleanData() {
+  localStorage.clear();
 }
