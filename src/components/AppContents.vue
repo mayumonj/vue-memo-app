@@ -44,7 +44,7 @@ function clearData() {
 <template>
   <div class="list">
     <MemoList :memos="memos" @choose="(memo) => chooseTheMemo(memo)" />
-    <button class="add-button" @click="addMemo">Add</button>
+    <button class="add-button" @click="addMemo">Add a new memo</button>
     <div class="dev">
       <h3>for dev</h3>
       <p>memoData choice: {{ choice }}</p>
