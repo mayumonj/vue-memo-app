@@ -5,7 +5,6 @@ import MemoDetail from "./MemoDetail.vue";
 import { MemoData } from "../lib/memo-data";
 
 const memos = ref(MemoData.getAllMemos());
-
 const choice = ref({});
 
 function chooseTheMemo(memo) {
@@ -46,9 +45,6 @@ function clearData() {
     <MemoList :memos="memos" @choose="(memo) => chooseTheMemo(memo)" />
     <button class="add-button" @click="addMemo">Add a new memo</button>
     <div class="dev">
-      <h3>for dev</h3>
-      <p>memoData choice: {{ choice }}</p>
-      <p>v-show {{ !!choice.id }}</p>
       <button @click="setSampleData">Set Sample Data</button><br />
       <button @click="clearData">Clear All Data</button>
     </div>
@@ -75,9 +71,6 @@ function clearData() {
 }
 .detail {
   margin: 30px 10px;
-}
-.dev {
-  padding: 10px;
 }
 @media (min-width: 480px) {
   .list {
