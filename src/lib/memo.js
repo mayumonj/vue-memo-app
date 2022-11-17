@@ -1,4 +1,4 @@
-export class MemoData {
+export class Memo {
   static maxId = localStorage.maxId || 1;
 
   constructor({ id, title, body }) {
@@ -30,17 +30,17 @@ export class MemoData {
   }
 
   update(title, body) {
-    const memos = MemoData.getAllMemos();
+    const memos = Memo.getAllMemos();
     const targetIndex = memos.findIndex((memo) => memo.id === this.id);
     memos[targetIndex].title = title;
     memos[targetIndex].body = body;
-    return MemoData.#save(memos);
+    return Memo.#save(memos);
   }
 
   delete() {
-    const memos = MemoData.getAllMemos();
+    const memos = Memo.getAllMemos();
     const updatedMemos = memos.filter((memo) => memo.id !== this.id);
-    return MemoData.#save(updatedMemos);
+    return Memo.#save(updatedMemos);
   }
 
   static #save(memos) {

@@ -2,9 +2,9 @@
 import { ref } from "vue";
 import MemoList from "./MemoList.vue";
 import MemoDetail from "./MemoDetail.vue";
-import { MemoData } from "../lib/memo-data";
+import { Memo } from "../lib/memo";
 
-const memos = ref(MemoData.getAllMemos());
+const memos = ref(Memo.getAllMemos());
 const choice = ref({});
 
 function chooseTheMemo(memo) {
@@ -12,26 +12,26 @@ function chooseTheMemo(memo) {
 }
 
 function updateMemo() {
-  const targetMemo = MemoData.find_by_id(choice.value.id);
+  const targetMemo = Memo.find_by_id(choice.value.id);
   memos.value = targetMemo.update(choice.value.title, choice.value.body);
   choice.value = {};
 }
 
 function deleteMemo(id) {
-  const targetMemo = MemoData.find_by_id(id);
+  const targetMemo = Memo.find_by_id(id);
   memos.value = targetMemo.delete();
   choice.value = {};
 }
 
 function addMemo() {
-  [choice.value, memos.value] = MemoData.create("New Memo", "");
+  [choice.value, memos.value] = Memo.create("New Memo", "");
 }
 
 function setSampleData() {
   localStorage.clear();
-  MemoData.create("Memo 1", "Memo 1 body");
-  MemoData.create("Memo 2", "Memo 2 body");
-  MemoData.create("Memo 3", "Memo 3 body");
+  Memo.create("Memo 1", "Memo 1 body");
+  Memo.create("Memo 2", "Memo 2 body");
+  Memo.create("Memo 3", "Memo 3 body");
   choice.value = {};
 }
 
