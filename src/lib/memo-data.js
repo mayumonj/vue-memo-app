@@ -1,5 +1,5 @@
 export class MemoData {
-  static maxID = localStorage.maxID || 1;
+  static maxId = localStorage.maxId || 1;
 
   constructor({ id, title, body }) {
     this.id = id;
@@ -17,10 +17,10 @@ export class MemoData {
 
   static create(title, body) {
     const memos = this.getAllMemos();
-    const newMemo = new this({ id: this.maxID++, title: title, body: body });
+    const newMemo = new this({ id: this.maxId++, title: title, body: body });
     memos.push(newMemo);
     const updatedMemos = this.#save(memos);
-    localStorage.maxID = this.maxID;
+    localStorage.maxId = this.maxId;
     return [newMemo, updatedMemos];
   }
 
