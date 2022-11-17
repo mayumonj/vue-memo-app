@@ -8,8 +8,7 @@ const props = defineProps({
 const emit = defineEmits(["choose"]);
 
 function chooseTheMemo(memo) {
-  const choice = { id: memo.id, title: memo.title, body: memo.body };
-  emit("choose", choice);
+  emit("choose", memo);
 }
 </script>
 
