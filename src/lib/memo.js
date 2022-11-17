@@ -7,7 +7,7 @@ export class Memo {
     this.body = body;
   }
 
-  static getAllMemos() {
+  static all() {
     if (localStorage.memos) {
       return JSON.parse(localStorage.memos);
     } else {
@@ -16,7 +16,7 @@ export class Memo {
   }
 
   static create(title, body) {
-    const memos = this.getAllMemos();
+    const memos = this.all();
     const newMemo = new this({ id: this.maxId++, title: title, body: body });
     memos.push(newMemo);
     const updatedMemos = this.#save(memos);
@@ -24,13 +24,13 @@ export class Memo {
     return [newMemo, updatedMemos];
   }
 
-  static find_by_id(id) {
-    const memos = this.getAllMemos();
+  static find(id) {
+    const memos = this.all();
     return new this(memos.find((memo) => memo.id === id));
   }
 
   update(title, body) {
-    const memos = Memo.getAllMemos();
+    const memos = Memo.all();
     const targetIndex = memos.findIndex((memo) => memo.id === this.id);
     memos[targetIndex].title = title;
     memos[targetIndex].body = body;
@@ -38,7 +38,7 @@ export class Memo {
   }
 
   delete() {
-    const memos = Memo.getAllMemos();
+    const memos = Memo.all();
     const updatedMemos = memos.filter((memo) => memo.id !== this.id);
     return Memo.#save(updatedMemos);
   }

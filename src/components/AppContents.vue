@@ -4,7 +4,7 @@ import MemoList from "./MemoList.vue";
 import MemoDetail from "./MemoDetail.vue";
 import { Memo } from "../lib/memo";
 
-const memos = ref(Memo.getAllMemos());
+const memos = ref(Memo.all());
 const choice = ref({});
 
 function chooseTheMemo(memo) {
@@ -12,13 +12,13 @@ function chooseTheMemo(memo) {
 }
 
 function updateMemo() {
-  const targetMemo = Memo.find_by_id(choice.value.id);
+  const targetMemo = Memo.find(choice.value.id);
   memos.value = targetMemo.update(choice.value.title, choice.value.body);
   choice.value = {};
 }
 
 function deleteMemo(id) {
-  const targetMemo = Memo.find_by_id(id);
+  const targetMemo = Memo.find(id);
   memos.value = targetMemo.delete();
   choice.value = {};
 }
