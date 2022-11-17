@@ -12,12 +12,14 @@ function chooseTheMemo(memo) {
 }
 
 function updateMemo() {
-  memos.value = MemoData.update(choice.value);
+  const targetMemo = MemoData.find_by_id(choice.value.id);
+  memos.value = targetMemo.update(choice.value.title, choice.value.body);
   choice.value = {};
 }
 
 function deleteMemo(id) {
-  memos.value = MemoData.delete(id);
+  const targetMemo = MemoData.find_by_id(id);
+  memos.value = targetMemo.delete();
   choice.value = {};
 }
 
